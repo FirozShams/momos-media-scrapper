@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:5.7
+    volumes:
+      - ./api/db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: Qweasd123
+      MYSQL_DATABASE: momos_media_scrapper
+      MYSQL_USER: momos
+      MYSQL_PASSWORD: momos123
+  backend_app:
+    build:
+      context: .
+      dockerfile: ./api/Dockerfile
+    image: momos_media_scrapper_server
+    container_name: momos_media_scrapper_server
+    restart: unless-stopped
+    environment:
+      - PORT=3000
+      - SENTRY_DSN=http://9d7762e0e7814fd3bbc934749bee862e@ec2-54-254-102-197.ap-southeast-1.compute.amazonaws.com/26
+      - SENTRY_ENVIRONMENT=develop
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_NAME=momos_media_scrapper
+      - DB_USER=momos
+      - DB_PASSWORD=momos123
+    ports:
+      - "3000:3000"
+    command: bash -c "npm run start:debug"
+    volumes:
+      - ./api/:/app/
+    depends_on:
+      - db
+volumes:
+  db_data: {}
