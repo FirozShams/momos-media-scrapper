@@ -11,7 +11,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { RequestLoggingInterceptor, ResponseTransformInterceptor, ErrorsLoggerInterceptor } from './interceptors/http';
 
 import { HttpExceptionFilter } from './filters/http/exeptions.formatter.filter';
-
+import { AuthModule } from '../auth/auth.module'
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -32,7 +32,8 @@ import { HttpExceptionFilter } from './filters/http/exeptions.formatter.filter';
       },
       inject: [ConfigService],
     }),
-    HttpModule
+    HttpModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [
