@@ -32,8 +32,7 @@ export class RequestLoggingInterceptor implements NestInterceptor {
                             response_body: data,
                             status: response.statusCode
                         }
-                        // let logString = JSON.stringify(requestDetails) + '\n'
-                        let logString = ''
+                        let logString = JSON.stringify(requestDetails) + '\n'
                         logString = logString + [
                             request.method,
                             request.originalUrl,
