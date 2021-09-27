@@ -13,6 +13,8 @@ services:
       MYSQL_PASSWORD: momos123
     ports:
       - "3307:3306"
+  redis:
+    image: redis:5-alpine
   backend_app:
     build:
       context: .
@@ -29,6 +31,8 @@ services:
       - DB_NAME=momos_media_scrapper
       - DB_USER=momos
       - DB_PASSWORD=momos123
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
     ports:
       - "3000:3000"
     command: bash -c "npm run start:debug"
@@ -36,5 +40,6 @@ services:
       - ./api/:/app/
     depends_on:
       - db
+      - redis
 volumes:
   db_data: {}

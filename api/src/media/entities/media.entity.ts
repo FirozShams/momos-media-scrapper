@@ -12,8 +12,8 @@ export class Media implements IMedia {
     @Column()
     type: string;
 
-    @Column('blob')
-    content: number;
+    @Column('longblob')
+    content: Buffer;
 
     @Column()
     source_uri: string;

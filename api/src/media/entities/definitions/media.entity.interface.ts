@@ -2,8 +2,8 @@ export interface IMedia {
 	id?: string;
 	name: string;
 	type: string;
-	content: number;
+	content: Buffer;
 	source_uri: string;
-	created_at: Date;
+	created_at?: Date;
 	submited_by?: string;
 }

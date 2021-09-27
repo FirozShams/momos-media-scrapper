@@ -32,13 +32,14 @@ export class MediaRepository extends AbstractMediaRepository {
             )
             .andWhere(
                 type ?
-                    'media.type = :type' : 'TRUE', { type: type }
+                    'media.type LIKE :type' : 'TRUE', { type: `%${type}%` }
             )
             .skip(skip)
             .take(limit)
             .select([
                 "media.id",
                 "media.name",
+                "media.type",
                 "media.created_at"
             ])
             .getMany();

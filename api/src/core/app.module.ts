@@ -12,6 +12,7 @@ import { RequestLoggingInterceptor, ResponseTransformInterceptor, ErrorsLoggerIn
 
 import { HttpExceptionFilter } from './filters/http/exeptions.formatter.filter';
 import { AuthModule } from '../auth/auth.module';
+import { BullModule } from '@nestjs/bull';
 import { MediaModule } from '../media/media.module';
 @Module({
   imports: [
@@ -32,6 +33,12 @@ import { MediaModule } from '../media/media.module';
         return dbConfig;
       },
       inject: [ConfigService],
+    }),
+    BullModule.forRoot({
+      redis: {
+        host: 'redis',
+        port: 6379,
+      },
     }),
     HttpModule,
     AuthModule,

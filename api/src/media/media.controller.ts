@@ -1,11 +1,18 @@
-import { Controller, Get, Post, Query, Body, ParseIntPipe, DefaultValuePipe } from '@nestjs/common';
+import { Controller, Get, Post, Query, Body, ParseIntPipe, DefaultValuePipe, HttpService } from '@nestjs/common';
+import { InjectQueue } from '@nestjs/bull';
+import { Queue } from 'bull';
 import { MediaService } from './media.service';
 import { MediaListDto } from './dto/media-list.dto';
 import { plainToClass } from 'class-transformer';
+import * as validUrl from 'valid-url';
 
 @Controller('media')
 export class MediaController {
-    constructor(private readonly mediaService: MediaService) { }
+    constructor(
+        private readonly mediaService: MediaService,
+        private httpService: HttpService,
+        @InjectQueue('media') private readonly mediaQueue: Queue
+    ) { }
 
     @Get('/')
     async getMedia(
@@ -29,7 +36,21 @@ export class MediaController {
         @Body() urls: Array<string>
     ) {
 
-        return urls;
+        let queuedItemCount = 0;
+
+        for (let i = 0; i < urls.length; i++) {
+            if (validUrl.isUri(urls[i])) {
+                queuedItemCount++;
+                await this.mediaQueue.add(
+                    'scrap',
+                    {
+                        url: urls[i],
+                    }
+                );
+            }
+        }
+
+        return { message: `${queuedItemCount} item(s) added for scrapping. Come back later to view the scrapped files` };
     }
 
 }
