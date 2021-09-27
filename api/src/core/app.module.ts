@@ -34,11 +34,12 @@ import { MediaModule } from '../media/media.module';
       },
       inject: [ConfigService],
     }),
-    BullModule.forRoot({
-      redis: {
-        host: 'redis',
-        port: 6379,
+    BullModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => {
+        return { redis: configService.get('redis') };
       },
+      inject: [ConfigService]
     }),
     HttpModule,
     AuthModule,
