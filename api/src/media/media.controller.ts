@@ -1,11 +1,11 @@
-import { Controller, Get, Post, Query, Body, ParseIntPipe, DefaultValuePipe, HttpService } from '@nestjs/common';
+import { Controller, Get, Post, Query, Body, ParseIntPipe, DefaultValuePipe, HttpService, UseGuards } from '@nestjs/common';
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
 import { MediaService } from './media.service';
 import { MediaListDto } from './dto/media-list.dto';
 import { plainToClass } from 'class-transformer';
 import * as validUrl from 'valid-url';
-
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 @Controller('media')
 export class MediaController {
     constructor(
@@ -14,6 +14,7 @@ export class MediaController {
         @InjectQueue('media') private readonly mediaQueue: Queue
     ) { }
 
+    @UseGuards(JwtAuthGuard)
     @Get('/')
     async getMedia(
         @Query('page', new DefaultValuePipe(1), ParseIntPipe) page?: number,
@@ -31,6 +32,7 @@ export class MediaController {
         return medialist.map(value => plainToClass(MediaListDto, value));
     }
 
+    @UseGuards(JwtAuthGuard)
     @Post('/from-urls')
     async addMediaFromUrls(
         @Body() urls: Array<string>

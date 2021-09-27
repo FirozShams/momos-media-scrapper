@@ -5,16 +5,22 @@ import { LocalStrategy } from './local.strategy';
 import { UsersModule } from '../users/users.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 // import { jwtConstants } from './constants';
 
 @Module({
   imports: [
+    ConfigModule,
     UsersModule,
     PassportModule,
-    JwtModule.register({
-      secret: 'momos_test',
-      signOptions: { expiresIn: '900s' },
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => {
+        console.log(configService.get('jwt'));
+        return configService.get('jwt');
+      },
+      inject: [ConfigService]
     }),
   ],
   providers: [AuthService, LocalStrategy, JwtStrategy],

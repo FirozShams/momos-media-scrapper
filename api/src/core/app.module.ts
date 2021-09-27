@@ -36,9 +36,9 @@ import { MediaModule } from '../media/media.module';
     }),
     BullModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => {
-        return { redis: configService.get('redis') };
-      },
+      useFactory: (configService: ConfigService) => ({
+        redis: configService.get('redis')
+      }),
       inject: [ConfigService]
     }),
     HttpModule,
