@@ -11,7 +11,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { RequestLoggingInterceptor, ResponseTransformInterceptor, ErrorsLoggerInterceptor } from './interceptors/http';
 
 import { HttpExceptionFilter } from './filters/http/exeptions.formatter.filter';
-import { AuthModule } from '../auth/auth.module'
+import { AuthModule } from '../auth/auth.module';
+import { MediaModule } from '../media/media.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -25,7 +26,7 @@ import { AuthModule } from '../auth/auth.module'
         let dbConfig = {
           type: 'mysql',
           ...configService.get('database'),
-          entities: [__dirname + '/**/*.entity{.ts,.js}'],
+          entities: [__dirname + '/../**/*.entity{.ts,.js}'],
           synchronize: true,
         }
         return dbConfig;
@@ -33,7 +34,8 @@ import { AuthModule } from '../auth/auth.module'
       inject: [ConfigService],
     }),
     HttpModule,
-    AuthModule
+    AuthModule,
+    MediaModule
   ],
   controllers: [AppController],
   providers: [

@@ -11,6 +11,8 @@ services:
       MYSQL_DATABASE: momos_media_scrapper
       MYSQL_USER: momos
       MYSQL_PASSWORD: momos123
+    ports:
+      - "3307:3306"
   backend_app:
     build:
       context: .
