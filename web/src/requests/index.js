@@ -17,16 +17,20 @@ export async function loginAction(reqBody) {
     }
 }
 
-export async function getMediaList(type) {
+export async function getMediaList(type, search) {
     try {
       let apiUrl = `http://localhost:3000/media`;
-      let queryParams = ''
+      let queryParams = []
       if (type != "all"){
-        queryParams += `type=${type}`
+        queryParams.push(`type=${type}`)
+      }
+
+      if(search){
+        queryParams.push(`search=${search}`)
       }
 
       if(queryParams){
-        apiUrl += `?${queryParams}`
+        apiUrl += `?${queryParams.join('&')}`
       }
 
       const res = await axios.get(

@@ -5,21 +5,48 @@ import moment from 'moment'
 export function Dashboard() {
   const [ filter , setFilter ] = React.useState("all");
   const [mediaList, setmediaList] = React.useState([]);
+  const [page, setPage] = React.useState(0);
+  const [count, setCount] = React.useState(100);
+
+  const handleOnPageChange = (data) => {
+    const selectedPage = data.selected + 1;
+    setPage(selectedPage);
+  };
+  const [search, setSearch] = React.useState("");
 
   React.useEffect(() => {
     const initApiCall = async () => {
-      let list = await getMediaList(filter);
+      let list = await getMediaList(filter,search);
       setmediaList(list);
     };
     initApiCall();
-  }, [filter]);
+  }, [filter,search]);
   return (
     <div className="flex items-center justify-center h-screen p-4 bg-gray-200">
       <div style={{ minWidth: 1000 }} className="h-full p-4 bg-white shadow-lg">
         <div className="flex justify-between">
           <p className="text-xl font-bold ">Dashboard</p>
           <div>
-            <input className="text-sm form-input" placeholder="Search..." />
+            <div className="relative inline-block">
+              <input
+                className="text-sm form-input"
+                placeholder="Search..."
+                onKeyPress={(e) => {
+                  if (e.key === "Enter") {
+                    setSearch(e.target.value);
+                  }
+                }}
+              />
+              {search.length > 0 ? (
+                <button
+                  className="absolute m-2 text-sm text-gray-700 underline"
+                  style={{ right: -1 }}
+                  onClick={() => setSearch("")}
+                >
+                  Reset
+                </button>
+              ) : null}
+            </div>
             <select onChange={(e) => {setFilter(e.target.value)}} class="form-select text-sm">
               <option value={"all"}>All</option>
               <option value={"image"}>Image</option>
