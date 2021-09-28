@@ -9,5 +9,5 @@ export abstract class AbstractMediaRepository {
         limit: number,
         search?: string,
         type?: string
-    ): Promise<IMedia[]>;
+    ): Promise<[IMedia[], number]>;
 }

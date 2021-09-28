@@ -16,7 +16,14 @@ export class ResponseTransformInterceptor<T> implements NestInterceptor<T, Respo
                 map((data) => {
                     let message = null;
                     let statusCode = null;
+                    let meta = null;
                     let success = true;
+
+                    if (data?.meta) {
+                        meta = data.meta;
+                        data = data.data;
+                    }
+
                     if (data?.message) {
                         message = data.message;
                         delete data.message;
@@ -26,8 +33,8 @@ export class ResponseTransformInterceptor<T> implements NestInterceptor<T, Respo
                         statusCode = data.statusCode;
                         delete data.statusCode;
                     }
-                    
-                    if (data?.success!=null) {
+
+                    if (data?.success != null) {
                         success = data.success;
                         delete data.success;
                     }
@@ -38,6 +45,7 @@ export class ResponseTransformInterceptor<T> implements NestInterceptor<T, Respo
                         success: success,
                         message: message || response.statusMessage || 'OK',
                         data: data || {},
+                        meta: { ...meta }
                     };
                 })
             );

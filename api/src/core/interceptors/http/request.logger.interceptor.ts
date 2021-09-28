@@ -24,7 +24,7 @@ export class RequestLoggingInterceptor implements NestInterceptor {
                 .handle()
                 .pipe(
                     tap((data) => {
-                        let requestDetails = {
+                        let requestDashboard = {
                             method: request.method,
                             query_params: request.query,
                             body: request.body,
@@ -32,7 +32,7 @@ export class RequestLoggingInterceptor implements NestInterceptor {
                             response_body: data,
                             status: response.statusCode
                         }
-                        let logString = JSON.stringify(requestDetails) + '\n'
+                        let logString = JSON.stringify(requestDashboard) + '\n'
                         logString = logString + [
                             request.method,
                             request.originalUrl,

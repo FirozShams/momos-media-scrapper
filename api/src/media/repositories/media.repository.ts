@@ -23,7 +23,7 @@ export class MediaRepository extends AbstractMediaRepository {
         limit: number,
         search?: string,
         type?: string
-    ): Promise<IMedia[]> {
+    ): Promise<[IMedia[], number]> {
         return this.mediaRepository
             .createQueryBuilder("media")
             .where(
@@ -42,7 +42,7 @@ export class MediaRepository extends AbstractMediaRepository {
                 "media.type",
                 "media.created_at"
             ])
-            .getMany();
+            .getManyAndCount();
     }
 
     findOneById(id: string): Promise<IMedia> {

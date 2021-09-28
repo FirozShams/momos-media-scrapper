@@ -13,9 +13,9 @@ export class MediaService {
         limit: number,
         search?: string,
         type?: string
-    ): Promise<IMedia[]> {
+    ): Promise<[IMedia[], number]> {
 
-        return await this.repository.findAll(
+        return this.repository.findAll(
             page - 1, limit, search, type
         );
 

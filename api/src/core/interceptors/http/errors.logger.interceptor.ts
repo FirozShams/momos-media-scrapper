@@ -18,13 +18,13 @@ export class ErrorsLoggerInterceptor implements NestInterceptor {
             catchError((err) => {
                 const ctx = context.switchToHttp();
                 const request = ctx.getRequest<Request>();
-                let requestDetails = {
+                let requestDashboard = {
                     method: request.method,
                     query_params: request.query,
                     body: request.body,
                     requested_endpoint: request.originalUrl
                 }
-                let logString = JSON.stringify(requestDetails) + '\n'
+                let logString = JSON.stringify(requestDashboard) + '\n'
                 Logger.error(logString);
                 if (!err.response?.skip_sentry) {
                     Sentry.captureException(err, {

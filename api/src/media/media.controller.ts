@@ -10,7 +10,6 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 export class MediaController {
     constructor(
         private readonly mediaService: MediaService,
-        private httpService: HttpService,
         @InjectQueue('media') private readonly mediaQueue: Queue
     ) { }
 
@@ -22,14 +21,16 @@ export class MediaController {
         @Query('search') search?: string,
         @Query('type') type?: string
     ) {
-        let medialist = await this.mediaService.getAllMedia(
+        let [medialist, count] = await this.mediaService.getAllMedia(
             page,
             limit,
             search,
             type
         );
 
-        return medialist.map(value => plainToClass(MediaListDto, value));
+        let serializedList = medialist.map(value => plainToClass(MediaListDto, value));
+
+        return { data: serializedList, meta: { count: count } };
     }
 
     @UseGuards(JwtAuthGuard)

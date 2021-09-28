@@ -12,14 +12,14 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const status = exception.getStatus();
 
     const exceptionResponse = exception.getResponse();
-    
+
     const data = {
       success: false,
       message: exceptionResponse['message'],
       data: exceptionResponse['data'] || null
     }
 
-    let requestDetails = {
+    let requestDashboard = {
       method: request.method,
       query_params: request.query,
       body: request.body,
@@ -28,7 +28,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
       status: response.statusCode
     }
 
-    const logString = JSON.stringify(requestDetails) + '\n' + [
+    const logString = JSON.stringify(requestDashboard) + '\n' + [
       request.method,
       request.originalUrl,
       response.statusCode
