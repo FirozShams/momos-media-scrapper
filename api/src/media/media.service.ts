@@ -1,11 +1,10 @@
-import { Injectable, HttpService } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { AbstractMediaRepository } from './repositories/definitions/media.repository.abstract';
 import { IMedia } from './entities/definitions/media.entity.interface';
 
 @Injectable()
 export class MediaService {
     constructor(
-        private httpService: HttpService,
         private repository: AbstractMediaRepository,
     ) { }
 

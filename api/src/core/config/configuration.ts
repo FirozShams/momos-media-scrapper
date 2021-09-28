@@ -6,6 +6,7 @@ export default () => ({
     port: process.env.PORT,
     database: dbConfig,
     redis: redisConfig,
-    jwt: jwtConfig
+    jwt: jwtConfig,
+    password_salt: process.env.PASSWORD_SALT
 });
 

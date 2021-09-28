@@ -6,12 +6,12 @@ module.exports = {
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   entities: [
-    __dirname + '/src/**/*.entity.js'
+    __dirname + '/src/**/*.entity.ts'
   ],
   synchronize: true,
   migrationsTableName: 'custom_migration_table',
-  migrations: ['migration/*.js'],
+  migrations: ['./migrations/**/*.ts'],
   cli: {
-    migrationsDir: 'migration',
+    migrationsDir: './migration',
   },
 };

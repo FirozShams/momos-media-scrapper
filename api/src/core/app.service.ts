@@ -1,4 +1,4 @@
-import { HttpService, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import { HttpService, Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
