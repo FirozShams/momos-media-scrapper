@@ -43,5 +43,17 @@ services:
     depends_on:
       - db
       - redis
+  frontend_app:
+    build:
+      context: .
+      dockerfile: ./web/Dockerfile
+    image: momos_media_scrapper_web
+    container_name: momos_media_scrapper_web
+    restart: unless-stopped
+    ports:
+      - "5000:3000"
+    command: bash -c "npm run start"
+    volumes:
+      - ./web/:/app/
 volumes:
   db_data: {}
