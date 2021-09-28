@@ -1,4 +1,4 @@
-import { Injectable, OnApplicationBootstrap } from '@nestjs/common';
+import { Injectable, OnApplicationBootstrap, OnApplicationShutdown } from '@nestjs/common';
 import { IUser } from './entities/definitions/user.entity.interface';
 import { AbstractUserRepository } from './repositories/definitions/user.repository.abstract';
 import * as bcrypt from 'bcrypt';
@@ -11,7 +11,7 @@ export class UsersService implements OnApplicationBootstrap {
         await this.repository.createUser({
             username: 'momos',
             password: await bcrypt.hash('momos123', 10)
-        })
+        }).catch(error => { })
     }
 
     async findOne(username: string): Promise<IUser | undefined> {
