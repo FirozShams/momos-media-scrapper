@@ -31,7 +31,7 @@ Frontend Application - http://localhost:5000
 - Base Endpoint: http://localhost:3000
 - Login: http://localhost:3000/auth/login
 
-  Request Body: {"username":"momos","password":"momos123"}
+  Request Body: {"username":"momos","password":"momos123"} // please use this username and password combo for login in frontend as well
   
   Response Body: {"success":true,"message":"OK","data":{"access_token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1vbW9zIiwic3ViIjoiOTBlOTUyMDktYjIyOS00YTA5LTg1OTktNDI5ZmJkMWI1ZjJkIiwiaWF0IjoxNjMyODM2ODA3LCJleHAiOjE2MzI4Mzc3MDd9.xxoLuj3F8PWYO4I0sC_pzR-6HWNjPnvGtopMSZca43Q"}}
 
