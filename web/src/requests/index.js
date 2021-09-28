@@ -42,7 +42,7 @@ export async function getMediaList(type, search) {
           }
         );
       if (res.status === 200) {
-        return res.data.data;
+        return res.data;
       } else {
         return [];
       }

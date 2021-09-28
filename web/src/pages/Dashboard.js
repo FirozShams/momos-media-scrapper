@@ -1,12 +1,13 @@
 import React from "react";
 import {getMediaList} from '../requests';
 import moment from 'moment'
+import { Paginate } from "../components/Paginate";
 
 export function Dashboard() {
   const [ filter , setFilter ] = React.useState("all");
   const [mediaList, setmediaList] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [count, setCount] = React.useState(100);
+  const [count, setCount] = React.useState(0);
 
   const handleOnPageChange = (data) => {
     const selectedPage = data.selected + 1;
@@ -16,8 +17,9 @@ export function Dashboard() {
 
   React.useEffect(() => {
     const initApiCall = async () => {
-      let list = await getMediaList(filter,search);
-      setmediaList(list);
+      let data = await getMediaList(filter,search);
+      setmediaList(data.data);
+      setCount(data.meta.count);
     };
     initApiCall();
   }, [filter,search]);
@@ -108,14 +110,13 @@ export function Dashboard() {
           )}
         </div>
 
-        {/* <ul className="grid grid-cols-4 gap-4 mt-4">
-          {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
-            <li className="pb-4">
-              <img src="https://via.placeholder.com/200" alt="video" />
-              <p className="mt-2">title</p>
-            </li>
-          ))}
-        </ul> */}
+        <div className="flex justify-center mt-12">
+          <Paginate
+            forcePage={page ? page - 1 : 0}
+            onPageChange={handleOnPageChange}
+            pageCount={Math.floor(count) / 12}
+          />
+        </div>
       </div>
     </div>
   );
